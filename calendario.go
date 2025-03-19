@@ -4,13 +4,26 @@ import (
 	"fmt"
 	"time"
 )
+// Map con los dias de la semana en español
+var diaSemana = map[time.Weekday]string{
+	time.Sunday: "Domingo",
+	time.Monday: "Lunes",
+	time.Tuesday: "Martes",
+	time.Wednesday: "Miercoles",
+	time.Thursday: "Jueves",
+	time.Friday: "Viernes",
+	time.Saturday: "Sabado",
+
+}
 
 // Función que genera una lista de fechas entre dos fechas dadas
 func generarDías(FechaInicio time.Time, FechaFin time.Time) []string {
 	var fechas []string // Array para almacenar las fechas
 
 	for fecha := FechaInicio; !fecha.After(FechaFin); fecha = fecha.AddDate(0, 0, 1) {
-		fechas = append(fechas, fecha.Format("2006-01-02")) //Siempre se usa "2006-01-02" en este orden para que Go entienda cómo formatear la fecha.
+		diaSemana := diaSemana[fecha.Weekday()]
+		fechas = append(fechas, fmt.Sprintf("%s - %s", fecha.Format("2006-01-02"), diaSemana)) //Siempre se usa "2006-01-02" en este orden para que Go entienda cómo formatear la fecha.
+	
 	}
 	return fechas
 }
